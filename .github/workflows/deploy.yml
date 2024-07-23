@@ -20,8 +20,12 @@ jobs:
           python-version: '3.11'
       - name: Install the dependencies
         run: |
-          python -m pip install -r requirements.txt
+          pip install -U pip
+          pip install uv
+          uv pip install -r requirements.txt --system
       - name: Build the JupyterLite site
+        env:
+          JUPYTERLITE_PYODIDE_URL: https://cdn.promplate.dev/pyodide/v0.26.1/pyodide.js
         run: |
           cp README.md content
           jupyter lite build --contents content --output-dir dist
